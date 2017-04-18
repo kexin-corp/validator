@@ -14,6 +14,9 @@ var provMap = map[int64]string{
 	71: "台湾", 81: "香港", 82: "澳门", 91: "国外",
 }
 
+var checksum = [...]byte{'1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2'}
+var weight = [...]int{7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2}
+
 func Parse(card string) (ok bool, province string, year, month, day int64) {
 	if len(card) != 15 && len(card) != 18 {
 		return
@@ -58,6 +61,16 @@ func Parse(card string) (ok bool, province string, year, month, day int64) {
 		return
 	}
 	if day > 31 {
+		return
+	}
+
+	sum := 0
+	for i := 0; i < len(card)-1; i++ {
+		sum += int(card[i]-'0') * weight[i]
+	}
+
+	cs := sum % 11
+	if checksum[cs] != card[len(card)-1] {
 		return
 	}
 
