@@ -69,8 +69,13 @@ func Parse(card string) (ok bool, province string, year, month, day int64) {
 		sum += int(card[i]-'0') * weight[i]
 	}
 
+	lastNum := card[len(card)-1]
+	if lastNum == 'x' {
+		lastNum = 'X'
+	}
+
 	cs := sum % 11
-	if checksum[cs] != card[len(card)-1] {
+	if checksum[cs] != lastNum {
 		return
 	}
 
