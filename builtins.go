@@ -211,7 +211,7 @@ func phone(v interface{}, param string) error {
 }
 
 func cellphone(v interface{}, param string) error {
-	re := `^1[3|4|5|7|8][0-9]\d{4,8}$`
+	re := `^1[0-9][0-9]\d{4,8}$`
 	err := regex(v, re)
 	if err != nil {
 		return ErrCellPhone
